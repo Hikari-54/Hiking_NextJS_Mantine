@@ -1,0 +1,72 @@
+/* src/components/HikingSection/HikingSection.module.css */
+
+.container {
+  padding: 4rem 0;
+  background-color: #0B1D26;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.containerReverse {
+  flex-direction: row-reverse;
+}
+
+.content {
+  flex: 1;
+  position: relative;
+  padding-right: 2rem;
+}
+
+.contentReverse {
+  padding-right: 0;
+  padding-left: 2rem;
+}
+
+.number {
+  font-size: 6rem;
+  font-weight: 700;
+  position: absolute;
+  top: -8rem;
+  opacity: 0.1;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ffc107;
+  display: flex;
+  align-items: center;
+}
+
+.subtitleLine {
+  width: 72px;
+  height: 2px;
+  background-color: #ffc107;
+  margin-right: 8px;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.imageContainer {
+  flex: 1;
+}
+
+.image {
+  border-radius: 8px;
+}
+
+.readMore {
+  color: #ffc107;
+  text-decoration: none;
+  font-weight: bold;
+}
