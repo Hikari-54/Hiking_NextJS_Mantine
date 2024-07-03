@@ -1,0 +1,56 @@
+cache:
+  paths:
+    - node_modules/
+    - .yarn
+stages:
+  - build
+  - test
+  - deploy
+build:
+  image: node:18-alpine3.16
+  script:
+    - echo "👷‍♂️ Building..."
+    - corepack enable
+    - yarn install
+    - yarn build
+  artifacts:
+    paths:
+      - dist
+  stage: build
+  only:
+    - master
+test:
+  image: node:18-alpine3.16
+  stage: test
+  script:
+    - echo "🧪 Testing..."
+    - corepack enable
+    - yarn install
+    - yarn lint
+    - yarn typecheck
+  only:
+    - master
+deploy:
+  image: docker:stable
+  stage: deploy
+  environment:
+    name: production
+    url: https://194.67.90.214
+  script:
+    - echo "🚀 Deploy..."
+    - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
+    - eval $(ssh-agent -s)
+    # - chmod 600 "$SSH_PRIVATE_KEY"
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H '194.67.90.214' >> ~/.ssh/known_hosts
+    - ssh frontend@194.67.90.214 "rm -rf ~/frontend/dev/*"
+    - scp -r dist/* frontend@194.67.90.214:frontend/dev/
+  dependencies:
+    - build
+  only:
+    - master
